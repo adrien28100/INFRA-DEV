@@ -1,0 +1,163 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="oV1yoRkkYcm0_64fKMVU">
+    <mxGraphModel dx="1437" dy="1031" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="**INTERNET**" identity="1" shape="ellipse;shape=cloud" fill="#dae8fc" stroke="#6c8ebf" from="" to="" color="" undefined="" placeholders="1" id="SpQzzftgejne62IGPmXS-162">
+          <mxCell parent="1" style="shape=ellipse;shape=cloud;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="29.499999999999915" y="20" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**Pare-feu HQ**\n(FortiGate 80F)\nWAN: 82.x.x.x" identity="2" shape="mxgraph.cisco.security.firewall" fill="#f8cecc" stroke="#b85450" from="1" to="2" color="#b85450" placeholders="1" id="SpQzzftgejne62IGPmXS-163">
+          <mxCell parent="1" style="shape=mxgraph.cisco.security.firewall;fillColor=#f8cecc;strokeColor=#b85450;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="887.5" y="489.9999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**Routeur HQ**\n(Cisco ISR 4321)\nRoutage Inter-VLAN" identity="3" shape="mxgraph.cisco.routers.router" fill="#e1d5e7" stroke="#9673a6" from="2" to="3" color="#9673a6" placeholders="1" id="SpQzzftgejne62IGPmXS-164">
+          <mxCell parent="1" style="shape=mxgraph.cisco.routers.router;fillColor=#e1d5e7;strokeColor=#9673a6;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="699" y="482.99999999999994" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**VLAN 10 : SERVEURS**\n(Hyper-V - 192.168.1.0/25)" identity="4" shape="mxgraph.cisco.servers.generic_server" fill="#d5e8d4" stroke="#82b366" from="3" to="4" color="#82b366" placeholders="1" id="SpQzzftgejne62IGPmXS-165">
+          <mxCell parent="1" style="shape=mxgraph.cisco.servers.generic_server;fillColor=#d5e8d4;strokeColor=#82b366;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="490.49999999999994" y="286.5000000000001" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**SRV-DC01 / DC02**\nAD - DNS - DHCP (.1 / .2)" identity="5" shape="mxgraph.cisco.servers.directory_server" fill="#d5e8d4" stroke="#82b366" from="4" to="5" color="#82b366" placeholders="1" id="SpQzzftgejne62IGPmXS-166">
+          <mxCell parent="1" style="shape=mxgraph.cisco.servers.directory_server;fillColor=#d5e8d4;strokeColor=#82b366;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="256.5" y="160.99999999999997" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**SRV-FS01 / BACKUP**\nFichiers DFS - Zabbix (.4 / .7)" identity="6" shape="mxgraph.cisco.servers.file_server" fill="#d5e8d4" stroke="#82b366" from="4" to="6" color="#82b366" placeholders="1" id="SpQzzftgejne62IGPmXS-167">
+          <mxCell parent="1" style="shape=mxgraph.cisco.servers.file_server;fillColor=#d5e8d4;strokeColor=#82b366;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="256.50000000000006" y="353.9999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**VLAN 20 : DMZ**\n(10.0.0.0/28)" identity="7" shape="mxgraph.cisco.servers.web_server" fill="#fff2cc" stroke="#d6b656" from="3" to="7" color="#d6b656" placeholders="1" id="SpQzzftgejne62IGPmXS-168">
+          <mxCell parent="1" style="shape=mxgraph.cisco.servers.web_server;fillColor=#fff2cc;strokeColor=#d6b656;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="490.49999999999994" y="436.5000000000001" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**SRV-PROXY / WEB01**\nReverse Proxy + App Web (.2 / .1)" identity="8" shape="mxgraph.cisco.servers.web_server" fill="#fff2cc" stroke="#d6b656" from="7" to="8" color="#d6b656" placeholders="1" id="SpQzzftgejne62IGPmXS-169">
+          <mxCell parent="1" style="shape=mxgraph.cisco.servers.web_server;fillColor=#fff2cc;strokeColor=#d6b656;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="256.5" y="518.9999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**VLAN 30 : POSTES HQ**\n(192.168.2.0/25)" identity="9" shape="mxgraph.cisco.workstations.workstation" fill="#f5f5f5" stroke="#666666" from="3" to="9" color="#666666" placeholders="1" id="SpQzzftgejne62IGPmXS-170">
+          <mxCell parent="1" style="shape=mxgraph.cisco.workstations.workstation;fillColor=#f5f5f5;strokeColor=#666666;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="490.49999999999994" y="572.4999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**30 Postes + Imprimante**\nPlage .1 à .30 (Impr: .100)" identity="10" shape="mxgraph.cisco.workstations.workstation" fill="#f5f5f5" stroke="#666666" from="9" to="10" color="#666666" placeholders="1" id="SpQzzftgejne62IGPmXS-171">
+          <mxCell parent="1" style="shape=mxgraph.cisco.workstations.workstation;fillColor=#f5f5f5;strokeColor=#666666;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="256.5" y="683.9999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**TUNNEL VPN IPSEC**\nConcentrateur : 172.16.0.1" identity="11" shape="mxgraph.cisco.security.vpn_concentrator" fill="#f8cecc" stroke="#b85450" from="3" to="11" color="#b85450" placeholders="1" id="SpQzzftgejne62IGPmXS-172">
+          <mxCell parent="1" style="shape=mxgraph.cisco.security.vpn_concentrator;fillColor=#f8cecc;strokeColor=#b85450;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="490.5" y="708.4999999999997" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**12 AGENCES DISTANTES**\n(Réseaux 10.1.X.0/24)" identity="12" shape="mxgraph.cisco.routers.branch_router" fill="#e1d5e7" stroke="#9673a6" from="11" to="12" color="#b85450" placeholders="1" id="SpQzzftgejne62IGPmXS-173">
+          <mxCell parent="1" style="shape=mxgraph.cisco.routers.branch_router;fillColor=#e1d5e7;strokeColor=#9673a6;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="256.5" y="833.9999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="**5 Postes + Imprimante**\nPar Agence (Relais DHCP)" identity="13" shape="mxgraph.cisco.workstations.workstation" fill="#f5f5f5" stroke="#666666" from="12" to="13" color="#9673a6" placeholders="1" id="SpQzzftgejne62IGPmXS-174">
+          <mxCell parent="1" style="shape=mxgraph.cisco.workstations.workstation;fillColor=#f5f5f5;strokeColor=#666666;verticalLabelPosition=bottom;verticalAlign=top;html=1;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="60" width="60" x="39.000000000000036" y="826.4999999999999" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="SpQzzftgejne62IGPmXS-175" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-164" style="endArrow=none;strokeWidth=2;strokeColor=#9673a6;" target="SpQzzftgejne62IGPmXS-163" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="783.9999999999999" y="552.4999999999999" />
+              <mxPoint x="859.9999999999999" y="552.4999999999999" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-176" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-165" style="endArrow=none;strokeWidth=2;strokeColor=#82b366;" target="SpQzzftgejne62IGPmXS-164" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="597.9999999999999" y="341.5000000000001" />
+              <mxPoint x="673.9999999999999" y="504.12499999999994" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-177" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-166" style="endArrow=none;strokeWidth=2;strokeColor=#82b366;" target="SpQzzftgejne62IGPmXS-165" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="367" y="237.49999999999994" />
+              <mxPoint x="442.99999999999994" y="316.5000000000001" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-178" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-167" style="endArrow=none;strokeWidth=2;strokeColor=#82b366;" target="SpQzzftgejne62IGPmXS-165" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="367" y="416.4999999999999" />
+              <mxPoint x="442.99999999999994" y="366.5000000000001" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-179" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-168" style="endArrow=none;strokeWidth=2;strokeColor=#d6b656;" target="SpQzzftgejne62IGPmXS-164" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="597.9999999999999" y="484.5" />
+              <mxPoint x="671.9999999999999" y="536.3749999999999" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-180" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-169" style="endArrow=none;strokeWidth=2;strokeColor=#d6b656;" target="SpQzzftgejne62IGPmXS-168" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="367" y="581.4999999999999" />
+              <mxPoint x="442.99999999999994" y="484.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-181" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-170" style="endArrow=none;strokeWidth=2;strokeColor=#666666;" target="SpQzzftgejne62IGPmXS-164" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="597.9999999999999" y="620.4999999999998" />
+              <mxPoint x="671.9999999999999" y="568.6249999999999" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-182" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-171" style="endArrow=none;strokeWidth=2;strokeColor=#666666;" target="SpQzzftgejne62IGPmXS-170" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="367" y="738.9999999999999" />
+              <mxPoint x="442.99999999999994" y="620.4999999999998" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-183" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-172" style="endArrow=none;strokeWidth=2;strokeColor=#b85450;" target="SpQzzftgejne62IGPmXS-164" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="597.9999999999999" y="763.4999999999997" />
+              <mxPoint x="673.9999999999999" y="600.8749999999999" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-184" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-173" style="endArrow=none;strokeWidth=2;strokeColor=#b85450;" target="SpQzzftgejne62IGPmXS-172" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="367" y="888.9999999999999" />
+              <mxPoint x="442.99999999999994" y="763.4999999999997" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SpQzzftgejne62IGPmXS-185" edge="1" parent="1" source="SpQzzftgejne62IGPmXS-174" style="endArrow=none;strokeWidth=2;strokeColor=#9673a6;" target="SpQzzftgejne62IGPmXS-173" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130.00000000000006" y="888.9999999999999" />
+              <mxPoint x="206.00000000000003" y="888.9999999999999" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
