@@ -27,6 +27,9 @@
                     {% if utilisateur_connecte.role in ['commercial', 'admin'] %}
                         <a href="{{ url_for('espace.publier') }}">Publier</a>
                     {% endif %}
+                    {% if utilisateur_connecte.role == 'admin' %}
+                        <a href="{{ url_for('admin.tableau') }}">Admin</a>
+                    {% endif %}
                     <a href="{{ url_for('espace.favoris') }}">Favoris</a>
                     <span class="nav-user">{{ utilisateur_connecte.nom_complet }}</span>
                     <a href="{{ url_for('auth.deconnexion') }}" class="btn btn-ghost">Déconnexion</a>

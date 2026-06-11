@@ -14,7 +14,7 @@ def tableau_de_bord():
         "analyse.html",
         indicateurs=analyse_service.indicateurs_globaux(),
         par_ville=analyse_service.ventes_par_ville(),
-        par_type=analyse_service.repartition_par_type(),
+        par_pieces=analyse_service.repartition_par_pieces(),
         par_mois=analyse_service.ventes_par_mois(),
         zones=analyse_service.zones_interessantes(),
     )

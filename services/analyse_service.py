@@ -64,14 +64,19 @@ def ventes_par_ville():
     return grp.to_dict("records")
 
 
-def repartition_par_type():
-    """Part de chaque type de bien dans les ventes (pour identifier les biens populaires)."""
+def repartition_par_pieces():
+    """Répartition des ventes par nombre de pièces (T1, T2... T5+)."""
     df = _charger_ventes()
-    counts = df["type"].value_counts()
+    df = df.dropna(subset=["nb_pieces"])
+    df["categorie"] = df["nb_pieces"].apply(
+        lambda n: f"T{int(n)}" if n < 5 else "T5+"
+    )
+    counts = df["categorie"].value_counts()
     total = counts.sum()
+    ordre = ["T1", "T2", "T3", "T4", "T5+"]
     return [
-        {"type": t, "nb": int(n), "part": round(n / total * 100, 1)}
-        for t, n in counts.items()
+        {"categorie": cat, "nb": int(counts[cat]), "part": round(float(counts[cat]) / float(total) * 100, 1)}
+        for cat in ordre if cat in counts
     ]
 
 

@@ -5,8 +5,17 @@
 <div class="conteneur bien-detail">
     <div>
         <div class="bien-photo">
-            <img src="{{ bien.photo }}" alt="Photo de {{ bien.titre }}">
+            <img src="{{ photos[0] if photos else bien.photo }}" alt="Photo principale de {{ bien.titre }}" id="photo-principale">
         </div>
+        {% if photos|length > 1 %}
+        <div class="galerie">
+            {% for url in photos %}
+                <button type="button" class="galerie-vignette" onclick="document.getElementById('photo-principale').src='{{ url }}'">
+                    <img src="{{ url }}" alt="Vue {{ loop.index }} de {{ bien.titre }}" loading="lazy">
+                </button>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <div class="bien-carac">
             <div><span>Surface</span><strong>{{ bien.surface | round | int }} m²</strong></div>

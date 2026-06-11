@@ -86,11 +86,22 @@ img { max-width: 100%; display: block; }
 
 /* --- Hero (accueil) --- */
 .hero {
-    background: linear-gradient(160deg, var(--vert) 0%, var(--vert-fonce) 100%);
-    color: #fff; padding: 4.5rem 0 5.5rem;
+    position: relative;
+    background: linear-gradient(120deg, rgba(10,53,52,0.90) 0%, rgba(15,76,74,0.74) 100%),
+                url('/static/img/hero.jpg') center/cover;
+    color: #fff; padding: 5rem 0 6rem;
 }
 .hero h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); margin-bottom: 1rem; }
-.hero p { font-size: 1.15rem; color: #d7e6e4; max-width: 38ch; margin-bottom: 2rem; }
+.hero p { font-size: 1.15rem; color: #e4efed; max-width: 42ch; margin-bottom: 2rem; }
+
+/* Galerie de la fiche bien */
+.galerie { display: flex; gap: .7rem; margin-top: .8rem; flex-wrap: wrap; }
+.galerie-vignette {
+    border: 2px solid transparent; padding: 0; border-radius: 10px;
+    overflow: hidden; cursor: pointer; background: none; width: 110px; height: 80px;
+}
+.galerie-vignette:hover, .galerie-vignette:focus-visible { border-color: var(--vert); }
+.galerie-vignette img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Barre de recherche du hero */
 .recherche-rapide {

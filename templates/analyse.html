@@ -59,12 +59,12 @@
         </div>
 
         <div class="bloc-analyse">
-            <h2>Types de biens les plus vendus</h2>
+            <h2>Appartements vendus par nombre de pièces</h2>
             <table>
                 <tbody>
-                    {% for t in par_type %}
+                    {% for t in par_pieces %}
                     <tr>
-                        <td style="width:110px;">{{ t.type|capitalize }}</td>
+                        <td style="width:110px;">{{ t.categorie }}</td>
                         <td>
                             <div class="barre"><span style="width: {{ t.part }}%;"></span></div>
                         </td>

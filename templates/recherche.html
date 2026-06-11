@@ -16,14 +16,6 @@
                 {% endfor %}
             </select>
 
-            <label for="type">Type</label>
-            <select name="type" id="type">
-                <option value="">Tous</option>
-                {% for t in ['appartement', 'maison', 'terrain', 'local'] %}
-                    <option value="{{ t }}" {{ 'selected' if filtres.type == t }}>{{ t|capitalize }}</option>
-                {% endfor %}
-            </select>
-
             <label for="prix_min">Prix minimum (€)</label>
             <input type="number" name="prix_min" id="prix_min" min="0" step="10000" value="{{ filtres.prix_min }}">
 

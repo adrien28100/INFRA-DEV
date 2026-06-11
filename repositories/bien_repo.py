@@ -6,6 +6,7 @@ sans savoir comment les données sont stockées (séparation des responsabilité
 """
 from database.db import get_connexion
 from models.bien import Bien
+import media
 
 # Colonnes du bien + sa première photo, réutilisé dans plusieurs requêtes
 SELECT_BIEN = """
@@ -82,10 +83,19 @@ def creer(donnees, agence_id, commercial_id):
              donnees.get("adresse"), donnees.get("dpe"), agence_id, commercial_id),
         )
         bien_id = cur.lastrowid
-        photo = donnees.get("photo") or f"https://picsum.photos/seed/{bien_id}/800/600"
+        photo = donnees.get("photo") or media.image_pour(donnees["type"], bien_id)
         conn.execute("INSERT INTO photo (bien_id, url, ordre) VALUES (?, ?, 0)",
                      (bien_id, photo))
     return bien_id
+
+
+def photos(bien_id):
+    """Toutes les photos d'un bien, ordonnées (pour la galerie de la fiche)."""
+    with get_connexion() as conn:
+        rows = conn.execute(
+            "SELECT url FROM photo WHERE bien_id = ? ORDER BY ordre", (bien_id,)
+        ).fetchall()
+    return [r["url"] for r in rows]
 
 
 def changer_statut(bien_id, statut):

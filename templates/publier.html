@@ -13,15 +13,11 @@
                 <input type="text" name="titre" id="titre" required placeholder="Appartement T3 lumineux - centre-ville">
             </div>
 
+            <input type="hidden" name="type" value="appartement">
             <div class="grille-2">
                 <div class="champ-form">
-                    <label for="type">Type</label>
-                    <select name="type" id="type" required>
-                        <option value="appartement">Appartement</option>
-                        <option value="maison">Maison</option>
-                        <option value="terrain">Terrain</option>
-                        <option value="local">Local</option>
-                    </select>
+                    <label for="type_affiche">Type</label>
+                    <input type="text" id="type_affiche" value="Appartement" disabled>
                 </div>
                 <div class="champ-form">
                     <label for="dpe">DPE</label>

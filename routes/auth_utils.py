@@ -22,3 +22,14 @@ def commercial_requis(vue):
             return redirect(url_for("public.accueil"))
         return vue(*args, **kwargs)
     return wrapper
+
+
+def admin_requis(vue):
+    @wraps(vue)
+    def wrapper(*args, **kwargs):
+        user = session.get("user")
+        if not user or user["role"] != "admin":
+            flash("Accès réservé à l'administrateur.", "erreur")
+            return redirect(url_for("public.accueil"))
+        return vue(*args, **kwargs)
+    return wrapper

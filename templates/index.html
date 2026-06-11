@@ -6,7 +6,7 @@
 <section class="hero">
     <div class="conteneur">
         <h1>Trouvez le bien qui vous ressemble.</h1>
-        <p>Des appartements, maisons et terrains partout en France, gérés par nos 12 agences.</p>
+        <p>Des appartements à vendre partout en France, gérés par nos 12 agences.</p>
 
         <form class="recherche-rapide" action="{{ url_for('public.recherche') }}" method="get" role="search">
             <div class="champ">
@@ -14,16 +14,6 @@
                 <select name="ville" id="ville">
                     <option value="">Toutes les villes</option>
                     {% for v in villes %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
-                </select>
-            </div>
-            <div class="champ">
-                <label for="type">Type de bien</label>
-                <select name="type" id="type">
-                    <option value="">Tous les types</option>
-                    <option value="appartement">Appartement</option>
-                    <option value="maison">Maison</option>
-                    <option value="terrain">Terrain</option>
-                    <option value="local">Local</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primaire">Rechercher</button>

@@ -30,6 +30,26 @@ def creer(nom, prenom, email, mot_de_passe_hash):
         return cur.lastrowid
 
 
+def lister_tous():
+    """Tous les utilisateurs, avec le nom de leur agence (pour l'espace admin)."""
+    with get_connexion() as conn:
+        return conn.execute(
+            """SELECT u.id, u.nom, u.prenom, u.email, u.role, a.nom AS agence
+               FROM utilisateur u
+               LEFT JOIN agence a ON a.id = u.agence_id
+               ORDER BY u.role, u.nom"""
+        ).fetchall()
+
+
+def changer_role(user_id, role, agence_id=None):
+    """Change le rôle d'un utilisateur (ex : promouvoir un client en commercial/admin)."""
+    with get_connexion() as conn:
+        conn.execute(
+            "UPDATE utilisateur SET role = ?, agence_id = ? WHERE id = ?",
+            (role, agence_id, user_id),
+        )
+
+
 # --- Favoris ---
 
 def ajouter_favori(user_id, bien_id):

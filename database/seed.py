@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 from database.db import get_connexion, init_db, CHEMIN_DB
+import media
 
 random.seed(42)  # pour avoir toujours le même jeu de données
 
@@ -31,7 +32,7 @@ VILLES = [
     ("Grenoble", "38000", 3000),
 ]
 
-TYPES = ["appartement", "maison", "terrain", "local"]
+TYPES = ["appartement"]
 DPE = ["A", "B", "C", "D", "E", "F", "G"]
 
 PRENOMS = ["Lucas", "Emma", "Hugo", "Léa", "Nathan", "Chloé", "Théo", "Manon",
@@ -57,29 +58,18 @@ def creer_bien(ville_info, type_bien, date_creation):
     ville, cp, _ = ville_info
     annee = date_creation.year
 
-    if type_bien == "terrain":
-        surface = random.randint(300, 2000)
-        pieces, chambres = None, None
-    elif type_bien == "local":
-        surface = random.randint(40, 400)
-        pieces, chambres = None, None
-    else:
-        surface = random.randint(25, 180)
-        pieces = max(1, round(surface / 22))
-        chambres = max(0, pieces - 2)
+    # On ne gère que des appartements
+    surface = random.randint(20, 120)
+    pieces = max(1, round(surface / 24))      # ~1 pièce toutes les 24 m²
+    chambres = max(0, pieces - 1)
 
     prix = round(prix_au_m2(ville, type_bien, annee) * surface, -3)
 
-    titre = {
-        "appartement": f"Appartement T{pieces or 2} - {ville}",
-        "maison": f"Maison {surface} m² - {ville}",
-        "terrain": f"Terrain constructible {surface} m² - {ville}",
-        "local": f"Local commercial {surface} m² - {ville}",
-    }[type_bien]
+    titre = f"Appartement T{pieces} - {ville}"
 
     return {
         "titre": titre,
-        "description": f"Beau {type_bien} situé à {ville}, proche commerces et transports.",
+        "description": media.description_pour(type_bien, ville, surface, pieces),
         "type": type_bien,
         "prix": prix,
         "surface": surface,
@@ -158,7 +148,7 @@ def main():
     debut = datetime(2022, 1, 1)
     for _ in range(800):
         ville_info = random.choice(VILLES)
-        type_bien = random.choices(TYPES, weights=[50, 35, 8, 7])[0]
+        type_bien = "appartement"
         jours = random.randint(0, 365 * 3 + 150)
         date_creation = debut + timedelta(days=jours)
         if date_creation > datetime.now():
@@ -180,8 +170,10 @@ def main():
         )
         bien_id = cur.lastrowid
 
-        cur.execute("INSERT INTO photo (bien_id, url, ordre) VALUES (?, ?, 0)",
-                    (bien_id, f"https://picsum.photos/seed/{bien_id}/800/600"))
+        # Plusieurs photos par bien (pour la galerie de la fiche)
+        for ordre, url in enumerate(media.galerie_pour(type_bien, bien_id)):
+            cur.execute("INSERT INTO photo (bien_id, url, ordre) VALUES (?, ?, ?)",
+                        (bien_id, url, ordre))
 
         # ~55% des biens créés ont été vendus. Le prix de vente est négocié à la baisse.
         if random.random() < 0.55:

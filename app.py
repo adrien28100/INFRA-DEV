@@ -13,7 +13,7 @@ from routes.public import public_bp
 from routes.auth import auth_bp
 from routes.espace import espace_bp
 from routes.analyse import analyse_bp
-from routes.api import api_bp
+from routes.admin import admin_bp
 
 
 def creer_app():
@@ -24,7 +24,7 @@ def creer_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(espace_bp)
     app.register_blueprint(analyse_bp)
-    app.register_blueprint(api_bp)
+    app.register_blueprint(admin_bp)
 
     # Rend l'utilisateur connecté disponible dans tous les templates
     @app.context_processor

@@ -33,8 +33,9 @@ def recherche():
 @public_bp.route("/bien/<int:bien_id>")
 def detail_bien(bien_id):
     bien = bien_service.detail(bien_id)
+    photos = bien_repo.photos(bien_id)
     # Pour savoir si l'utilisateur connecté a déjà mis ce bien en favori
     en_favori = False
     if "user" in session:
         en_favori = bien_id in user_repo.ids_favoris(session["user"]["id"])
-    return render_template("bien.html", bien=bien, en_favori=en_favori)
+    return render_template("bien.html", bien=bien, photos=photos, en_favori=en_favori)

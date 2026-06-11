@@ -8,23 +8,14 @@
         <p class="sous-titre">Notre modèle estime un prix à partir de l'historique des ventes Ymmo.</p>
 
         <form method="post">
-            <div class="grille-2">
-                <div class="champ-form">
-                    <label for="type">Type de bien</label>
-                    <select name="type" id="type" required>
-                        {% for t in ['appartement', 'maison', 'terrain', 'local'] %}
-                            <option value="{{ t }}" {{ 'selected' if formulaire.type == t }}>{{ t|capitalize }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="champ-form">
-                    <label for="ville">Ville</label>
-                    <select name="ville" id="ville" required>
-                        {% for v in villes %}
-                            <option value="{{ v }}" {{ 'selected' if formulaire.ville == v }}>{{ v }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+            <input type="hidden" name="type" value="appartement">
+            <div class="champ-form">
+                <label for="ville">Ville</label>
+                <select name="ville" id="ville" required>
+                    {% for v in villes %}
+                        <option value="{{ v }}" {{ 'selected' if formulaire.ville == v }}>{{ v }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="grille-2">
                 <div class="champ-form">

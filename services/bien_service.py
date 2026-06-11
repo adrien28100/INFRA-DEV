@@ -6,7 +6,7 @@ le repository. Les routes ne touchent jamais directement à la base.
 """
 from repositories import bien_repo
 
-TYPES_VALIDES = {"appartement", "maison", "terrain", "local"}
+TYPES_VALIDES = {"appartement"}
 
 
 class ErreurBien(Exception):

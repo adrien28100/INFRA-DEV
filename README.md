@@ -50,7 +50,7 @@ ymmo/
 ├── models/               # Entités du domaine (POO)
 ├── repositories/         # Accès aux données (SQL)
 ├── services/             # Logique métier + analyse de données
-├── routes/               # Routes web et API (blueprints Flask)
+├── routes/               # Routes web (blueprints Flask)
 ├── templates/            # Pages HTML (Jinja2)
 ├── static/css/           # Styles
 └── docs/                 # Documentation fonctionnelle et technique
