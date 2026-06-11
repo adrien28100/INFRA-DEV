@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}Ymmo{% endblock %} — Ymmo Immobilier</title>
+    <meta name="description" content="Ymmo, votre plateforme pour acheter et vendre des biens immobiliers partout en France.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Lien d'évitement pour l'accessibilité au clavier -->
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+
+    <header class="entete">
+        <div class="conteneur entete-inner">
+            <a href="{{ url_for('public.accueil') }}" class="logo" aria-label="Accueil Ymmo">
+                <span class="logo-mark">Y</span>mmo
+            </a>
+            <nav class="nav" aria-label="Navigation principale">
+                <a href="{{ url_for('public.recherche') }}">Acheter</a>
+                <a href="{{ url_for('analyse.estimer') }}">Estimer un bien</a>
+                <a href="{{ url_for('analyse.tableau_de_bord') }}">Le marché</a>
+                {% if utilisateur_connecte %}
+                    {% if utilisateur_connecte.role in ['commercial', 'admin'] %}
+                        <a href="{{ url_for('espace.publier') }}">Publier</a>
+                    {% endif %}
+                    <a href="{{ url_for('espace.favoris') }}">Favoris</a>
+                    <span class="nav-user">{{ utilisateur_connecte.nom_complet }}</span>
+                    <a href="{{ url_for('auth.deconnexion') }}" class="btn btn-ghost">Déconnexion</a>
+                {% else %}
+                    <a href="{{ url_for('auth.connexion') }}" class="btn btn-ghost">Connexion</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="conteneur">
+                {% for categorie, message in messages %}
+                    <div class="flash flash-{{ categorie }}" role="status">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main id="contenu">
+        {% block contenu %}{% endblock %}
+    </main>
+
+    <footer class="pied">
+        <div class="conteneur pied-inner">
+            <div>
+                <span class="logo logo-pied"><span class="logo-mark">Y</span>mmo</span>
+                <p>Groupe immobilier — siège à Aix-en-Provence, 12 agences en France.</p>
+            </div>
+            <nav aria-label="Liens de pied de page">
+                <a href="{{ url_for('public.recherche') }}">Acheter</a>
+                <a href="{{ url_for('analyse.estimer') }}">Estimer</a>
+                <a href="{{ url_for('analyse.tableau_de_bord') }}">Le marché</a>
+            </nav>
+        </div>
+        <p class="pied-bas">© 2025 Ymmo — Projet étudiant Ynov Informatique B2.</p>
+    </footer>
+</body>
+</html>

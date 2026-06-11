@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block titre %}Analyse du marché{% endblock %}
+
+{% block contenu %}
+<div class="conteneur section">
+    <div class="section-titre"><h2>Analyse du marché immobilier</h2></div>
+
+    <div class="kpis">
+        <div class="kpi"><span>Ventes réalisées</span><strong>{{ indicateurs.nb_ventes }}</strong></div>
+        <div class="kpi"><span>Biens disponibles</span><strong>{{ indicateurs.biens_disponibles }}</strong></div>
+        <div class="kpi"><span>Prix moyen</span><strong>{{ "{:,.0f}".format(indicateurs.prix_moyen).replace(",", " ") }} €</strong></div>
+        <div class="kpi"><span>Prix moyen au m²</span><strong>{{ "{:,.0f}".format(indicateurs.prix_m2_moyen).replace(",", " ") }} €</strong></div>
+        <div class="kpi"><span>Chiffre d'affaires</span><strong>{{ "{:,.1f}".format(indicateurs.chiffre_affaires / 1000000).replace(",", " ") }} M€</strong></div>
+    </div>
+
+    <div class="bloc-analyse">
+        <h2>Évolution des ventes par mois</h2>
+        <canvas id="graph-ventes" height="90"></canvas>
+    </div>
+
+    <div class="bloc-analyse">
+        <h2>Zones intéressantes pour acheter</h2>
+        <p style="color:var(--gris); margin-bottom:1rem;">
+            Villes combinant un prix au m² accessible et un bon volume de transactions (demande réelle).
+        </p>
+        <table>
+            <thead>
+                <tr><th>Ville</th><th>Prix moyen au m²</th><th>Ventes</th><th>Score</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for z in zones %}
+                <tr>
+                    <td><strong>{{ z.ville }}</strong></td>
+                    <td>{{ "{:,.0f}".format(z.prix_m2_moyen).replace(",", " ") }} €</td>
+                    <td>{{ z.nb_ventes }}</td>
+                    <td>{{ z.score }}</td>
+                    <td>{% if z.sous_moyenne %}<span class="tag-bon">Sous la moyenne</span>{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grille-2" style="gap:2rem;">
+        <div class="bloc-analyse">
+            <h2>Ventes par ville</h2>
+            <table>
+                <thead><tr><th>Ville</th><th>Ventes</th><th>Prix moyen</th></tr></thead>
+                <tbody>
+                    {% for v in par_ville %}
+                    <tr>
+                        <td>{{ v.ville }}</td>
+                        <td>{{ v.nb_ventes | int }}</td>
+                        <td>{{ "{:,.0f}".format(v.prix_moyen).replace(",", " ") }} €</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bloc-analyse">
+            <h2>Types de biens les plus vendus</h2>
+            <table>
+                <tbody>
+                    {% for t in par_type %}
+                    <tr>
+                        <td style="width:110px;">{{ t.type|capitalize }}</td>
+                        <td>
+                            <div class="barre"><span style="width: {{ t.part }}%;"></span></div>
+                        </td>
+                        <td style="width:60px; text-align:right;">{{ t.part }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+    // Données injectées depuis le backend (rapport généré avec pandas)
+    const ventes = {{ par_mois | tojson }};
+    const labels = ventes.map(v => v.mois);
+    const valeurs = ventes.map(v => v.nb_ventes);
+
+    new Chart(document.getElementById('graph-ventes'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Nombre de ventes',
+                data: valeurs,
+                borderColor: '#0f4c4a',
+                backgroundColor: 'rgba(15, 76, 74, 0.1)',
+                fill: true,
+                tension: 0.3,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
+{% endblock %}

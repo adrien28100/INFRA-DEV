@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titre %}Connexion{% endblock %}
+
+{% block contenu %}
+<div class="form-page">
+    <div class="form-carte">
+        <h1>Connexion</h1>
+        <p class="sous-titre">Accédez à vos favoris et vos demandes de visite.</p>
+
+        <form method="post">
+            <div class="champ-form">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required autocomplete="email">
+            </div>
+            <div class="champ-form">
+                <label for="mot_de_passe">Mot de passe</label>
+                <input type="password" name="mot_de_passe" id="mot_de_passe" required autocomplete="current-password">
+            </div>
+            <button class="btn btn-primaire btn-bloc">Se connecter</button>
+        </form>
+
+        <p class="form-lien">Pas encore de compte ? <a href="{{ url_for('auth.inscription') }}">Créer un compte</a></p>
+        <p class="aide">Compte de démo : <strong>demo@ymmo.fr</strong> / <strong>demo123</strong></p>
+    </div>
+</div>
+{% endblock %}

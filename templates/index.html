@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_bien %}
+{% block titre %}Acheter et vendre un bien immobilier{% endblock %}
+
+{% block contenu %}
+<section class="hero">
+    <div class="conteneur">
+        <h1>Trouvez le bien qui vous ressemble.</h1>
+        <p>Des appartements, maisons et terrains partout en France, gérés par nos 12 agences.</p>
+
+        <form class="recherche-rapide" action="{{ url_for('public.recherche') }}" method="get" role="search">
+            <div class="champ">
+                <label for="ville">Ville</label>
+                <select name="ville" id="ville">
+                    <option value="">Toutes les villes</option>
+                    {% for v in villes %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="champ">
+                <label for="type">Type de bien</label>
+                <select name="type" id="type">
+                    <option value="">Tous les types</option>
+                    <option value="appartement">Appartement</option>
+                    <option value="maison">Maison</option>
+                    <option value="terrain">Terrain</option>
+                    <option value="local">Local</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primaire">Rechercher</button>
+        </form>
+    </div>
+</section>
+
+<section class="section">
+    <div class="conteneur">
+        <div class="section-titre">
+            <h2>Derniers biens en vente</h2>
+            <a href="{{ url_for('public.recherche') }}">Voir tous les biens →</a>
+        </div>
+        <div class="grille-biens">
+            {% for bien in biens %}
+                {{ carte_bien(bien) }}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-doux">
+    <div class="conteneur section-titre">
+        <div>
+            <h2>Pas sûr du prix ?</h2>
+            <p style="color: var(--gris); margin-top:.5rem;">Estimez la valeur d'un bien grâce à notre outil basé sur l'historique des ventes.</p>
+        </div>
+        <a href="{{ url_for('analyse.estimer') }}" class="btn btn-primaire">Estimer un bien</a>
+    </div>
+</section>
+{% endblock %}

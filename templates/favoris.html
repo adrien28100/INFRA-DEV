@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_bien %}
+{% block titre %}Mes favoris{% endblock %}
+
+{% block contenu %}
+<div class="conteneur section">
+    <div class="section-titre"><h2>Mes favoris</h2></div>
+    {% if biens %}
+        <div class="grille-biens">
+            {% for bien in biens %}{{ carte_bien(bien) }}{% endfor %}
+        </div>
+    {% else %}
+        <div class="vide">
+            <p>Vous n'avez pas encore de favoris.</p>
+            <a href="{{ url_for('public.recherche') }}" class="btn btn-primaire" style="margin-top:1rem;">Parcourir les biens</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

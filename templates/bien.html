@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block titre %}{{ bien.titre }}{% endblock %}
+
+{% block contenu %}
+<div class="conteneur bien-detail">
+    <div>
+        <div class="bien-photo">
+            <img src="{{ bien.photo }}" alt="Photo de {{ bien.titre }}">
+        </div>
+
+        <div class="bien-carac">
+            <div><span>Surface</span><strong>{{ bien.surface | round | int }} m²</strong></div>
+            {% if bien.nb_pieces %}<div><span>Pièces</span><strong>{{ bien.nb_pieces }}</strong></div>{% endif %}
+            {% if bien.nb_chambres is not none %}<div><span>Chambres</span><strong>{{ bien.nb_chambres }}</strong></div>{% endif %}
+            <div><span>Prix au m²</span><strong>{{ bien.prix_m2 }} €</strong></div>
+            {% if bien.dpe %}<div><span>DPE</span><strong><span class="dpe">{{ bien.dpe }}</span></strong></div>{% endif %}
+        </div>
+
+        <h2 style="margin:1.5rem 0 .6rem;">Description</h2>
+        <p style="color:var(--gris);">{{ bien.description }}</p>
+        <p style="color:var(--gris); margin-top:.8rem;">{{ bien.adresse }}, {{ bien.ville }} ({{ bien.code_postal }})</p>
+    </div>
+
+    <aside>
+        <div class="panneau">
+            <h1 class="bien-prix">{{ bien.prix_formate() }}</h1>
+            <p class="bien-prixm2">soit {{ bien.prix_m2 }} €/m²</p>
+
+            {% if utilisateur_connecte %}
+                {% if en_favori %}
+                    <form action="{{ url_for('espace.retirer_favori', bien_id=bien.id) }}" method="post">
+                        <button class="btn btn-ghost btn-bloc">★ Retirer des favoris</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('espace.ajouter_favori', bien_id=bien.id) }}" method="post">
+                        <button class="btn btn-ghost btn-bloc">☆ Ajouter aux favoris</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        {% if bien.est_disponible %}
+        <div class="panneau" style="margin-top:1.5rem;">
+            <h2>Demander une visite</h2>
+            {% if utilisateur_connecte %}
+                <form action="{{ url_for('espace.demander_visite', bien_id=bien.id) }}" method="post">
+                    <div class="champ-form">
+                        <label for="date_visite">Date souhaitée</label>
+                        <input type="date" name="date_visite" id="date_visite" required>
+                    </div>
+                    <div class="champ-form">
+                        <label for="message">Message (facultatif)</label>
+                        <textarea name="message" id="message" placeholder="Bonjour, je souhaiterais visiter ce bien..."></textarea>
+                    </div>
+                    <button class="btn btn-primaire btn-bloc">Envoyer la demande</button>
+                </form>
+            {% else %}
+                <p style="color:var(--gris); margin-bottom:1rem;">Connectez-vous pour demander une visite.</p>
+                <a href="{{ url_for('auth.connexion') }}" class="btn btn-primaire btn-bloc">Se connecter</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </aside>
+</div>
+{% endblock %}

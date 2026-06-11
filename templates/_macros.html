@@ -1,0 +1,27 @@
+{# Carte d'un bien, réutilisée sur l'accueil, la recherche et les favoris #}
+{% macro carte_bien(bien) %}
+<article class="carte">
+    <a href="{{ url_for('public.detail_bien', bien_id=bien.id) }}">
+        <div class="carte-image">
+            <img src="{{ bien.photo }}" alt="Photo de {{ bien.titre }}" loading="lazy">
+            {% if bien.statut == 'vendu' %}
+                <span class="badge badge-vendu">Vendu</span>
+            {% elif bien.statut == 'sous_compromis' %}
+                <span class="badge badge-compromis">Sous compromis</span>
+            {% else %}
+                <span class="badge">{{ bien.type }}</span>
+            {% endif %}
+        </div>
+        <div class="carte-corps">
+            <p class="carte-prix">{{ bien.prix_formate() }}</p>
+            <p class="carte-titre">{{ bien.titre }}</p>
+            <p class="carte-lieu">{{ bien.ville }} ({{ bien.code_postal }})</p>
+            <div class="carte-infos">
+                <span>{{ bien.surface | round | int }} m²</span>
+                {% if bien.nb_pieces %}<span>{{ bien.nb_pieces }} pièces</span>{% endif %}
+                <span>{{ bien.prix_m2 }} €/m²</span>
+            </div>
+        </div>
+    </a>
+</article>
+{% endmacro %}

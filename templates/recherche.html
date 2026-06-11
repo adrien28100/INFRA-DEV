@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_bien %}
+{% block titre %}Rechercher un bien{% endblock %}
+
+{% block contenu %}
+<div class="conteneur layout-recherche">
+    <aside class="filtres">
+        <form action="{{ url_for('public.recherche') }}" method="get">
+            <h2>Filtrer</h2>
+
+            <label for="ville">Ville</label>
+            <select name="ville" id="ville">
+                <option value="">Toutes</option>
+                {% for v in villes %}
+                    <option value="{{ v }}" {{ 'selected' if filtres.ville == v }}>{{ v }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option value="">Tous</option>
+                {% for t in ['appartement', 'maison', 'terrain', 'local'] %}
+                    <option value="{{ t }}" {{ 'selected' if filtres.type == t }}>{{ t|capitalize }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="prix_min">Prix minimum (€)</label>
+            <input type="number" name="prix_min" id="prix_min" min="0" step="10000" value="{{ filtres.prix_min }}">
+
+            <label for="prix_max">Prix maximum (€)</label>
+            <input type="number" name="prix_max" id="prix_max" min="0" step="10000" value="{{ filtres.prix_max }}">
+
+            <label for="surface_min">Surface minimum (m²)</label>
+            <input type="number" name="surface_min" id="surface_min" min="0" value="{{ filtres.surface_min }}">
+
+            <button type="submit" class="btn btn-primaire btn-bloc" style="margin-top:1.2rem;">Appliquer</button>
+            <a href="{{ url_for('public.recherche') }}" class="form-lien" style="display:block;">Réinitialiser</a>
+        </form>
+    </aside>
+
+    <section>
+        <p class="resultats-entete">{{ biens|length }} bien(s) trouvé(s)</p>
+        {% if biens %}
+            <div class="grille-biens">
+                {% for bien in biens %}{{ carte_bien(bien) }}{% endfor %}
+            </div>
+        {% else %}
+            <div class="vide">
+                <p>Aucun bien ne correspond à votre recherche.</p>
+                <p>Essayez d'élargir vos critères.</p>
+            </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block titre %}Estimer un bien{% endblock %}
+
+{% block contenu %}
+<div class="form-page form-large">
+    <div class="form-carte">
+        <h1>Estimer un bien</h1>
+        <p class="sous-titre">Notre modèle estime un prix à partir de l'historique des ventes Ymmo.</p>
+
+        <form method="post">
+            <div class="grille-2">
+                <div class="champ-form">
+                    <label for="type">Type de bien</label>
+                    <select name="type" id="type" required>
+                        {% for t in ['appartement', 'maison', 'terrain', 'local'] %}
+                            <option value="{{ t }}" {{ 'selected' if formulaire.type == t }}>{{ t|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="champ-form">
+                    <label for="ville">Ville</label>
+                    <select name="ville" id="ville" required>
+                        {% for v in villes %}
+                            <option value="{{ v }}" {{ 'selected' if formulaire.ville == v }}>{{ v }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="grille-2">
+                <div class="champ-form">
+                    <label for="surface">Surface (m²)</label>
+                    <input type="number" name="surface" id="surface" min="1" required value="{{ formulaire.surface }}">
+                </div>
+                <div class="champ-form">
+                    <label for="nb_pieces">Nombre de pièces</label>
+                    <input type="number" name="nb_pieces" id="nb_pieces" min="0" value="{{ formulaire.nb_pieces }}">
+                </div>
+            </div>
+            <button class="btn btn-primaire btn-bloc">Estimer le prix</button>
+        </form>
+
+        {% if estimation %}
+            <div class="estimation-resultat">
+                <span>Estimation</span>
+                <p class="montant">{{ "{:,.0f}".format(estimation).replace(",", " ") }} €</p>
+                <span>Prix indicatif basé sur les ventes similaires</span>
+            </div>
+        {% endif %}
+
+        <p class="aide">Cette estimation est donnée à titre indicatif et ne remplace pas l'expertise d'un conseiller.</p>
+    </div>
+</div>
+{% endblock %}

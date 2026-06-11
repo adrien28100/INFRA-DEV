@@ -1,0 +1,231 @@
+/* ===========================================================
+   Ymmo — feuille de style
+   Couleurs sobres autour d'un vert pétrole (confiance, immobilier).
+   Conçu pour être responsive (mobile first) et accessible.
+   =========================================================== */
+
+:root {
+    --vert: #0f4c4a;
+    --vert-fonce: #0a3534;
+    --vert-clair: #e6f0ef;
+    --ambre: #c08a2e;          /* accent, utilisé avec parcimonie (prix) */
+    --encre: #16211f;
+    --gris: #5d6b69;
+    --gris-clair: #eef1f0;
+    --fond: #ffffff;
+    --fond-doux: #f6f5f1;
+    --blanc: #ffffff;
+    --rayon: 14px;
+    --ombre: 0 6px 24px rgba(16, 40, 38, 0.08);
+    --ombre-forte: 0 12px 40px rgba(16, 40, 38, 0.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--encre);
+    background: var(--fond);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .logo { font-family: 'Sora', sans-serif; line-height: 1.15; }
+
+a { color: var(--vert); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+.conteneur { width: min(1140px, 92%); margin: 0 auto; }
+
+/* --- Accessibilité : focus visible et lien d'évitement --- */
+:focus-visible { outline: 3px solid var(--ambre); outline-offset: 2px; }
+
+.skip-link {
+    position: absolute; left: -999px; top: 0;
+    background: var(--vert); color: #fff; padding: .6rem 1rem; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* --- Boutons --- */
+.btn {
+    display: inline-block; padding: .7rem 1.3rem; border-radius: 999px;
+    font-weight: 600; font-family: 'Inter', sans-serif; border: none;
+    cursor: pointer; font-size: .95rem; text-align: center;
+    transition: transform .12s ease, background .2s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn-primaire { background: var(--vert); color: #fff; }
+.btn-primaire:hover { background: var(--vert-fonce); color: #fff; }
+.btn-ghost { background: transparent; color: var(--vert); border: 1.5px solid var(--vert); }
+.btn-ghost:hover { background: var(--vert-clair); }
+.btn-bloc { width: 100%; }
+
+/* --- En-tête --- */
+.entete {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--gris-clair);
+}
+.entete-inner { display: flex; align-items: center; justify-content: space-between; padding: .9rem 0; }
+.logo { font-weight: 700; font-size: 1.5rem; color: var(--encre); }
+.logo:hover { text-decoration: none; }
+.logo-mark { color: var(--vert); }
+.nav { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
+.nav a { color: var(--encre); font-weight: 500; font-size: .95rem; }
+.nav a:hover { color: var(--vert); text-decoration: none; }
+.nav-user { color: var(--gris); font-size: .9rem; }
+
+/* --- Messages flash --- */
+.flash { padding: .8rem 1.1rem; border-radius: 10px; margin-top: 1rem; font-size: .95rem; }
+.flash-succes { background: #e3f3ea; color: #1d6b3f; }
+.flash-erreur { background: #fbe5e2; color: #a3331f; }
+.flash-info   { background: var(--vert-clair); color: var(--vert-fonce); }
+
+/* --- Hero (accueil) --- */
+.hero {
+    background: linear-gradient(160deg, var(--vert) 0%, var(--vert-fonce) 100%);
+    color: #fff; padding: 4.5rem 0 5.5rem;
+}
+.hero h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); margin-bottom: 1rem; }
+.hero p { font-size: 1.15rem; color: #d7e6e4; max-width: 38ch; margin-bottom: 2rem; }
+
+/* Barre de recherche du hero */
+.recherche-rapide {
+    background: #fff; border-radius: var(--rayon); padding: 1rem;
+    box-shadow: var(--ombre-forte); display: grid;
+    grid-template-columns: 1fr 1fr auto; gap: .8rem;
+}
+.recherche-rapide label { font-size: .8rem; color: var(--gris); font-weight: 600; display: block; margin-bottom: .25rem; }
+.recherche-rapide select, .recherche-rapide input {
+    width: 100%; padding: .6rem .7rem; border: 1px solid var(--gris-clair);
+    border-radius: 8px; font-size: .95rem; font-family: inherit; color: var(--encre);
+}
+.recherche-rapide .champ { display: flex; flex-direction: column; justify-content: flex-end; }
+.recherche-rapide .btn { align-self: flex-end; }
+
+/* --- Sections --- */
+.section { padding: 3.5rem 0; }
+.section-doux { background: var(--fond-doux); }
+.section-titre { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.8rem; gap: 1rem; flex-wrap: wrap; }
+.section-titre h2 { font-size: 1.7rem; }
+.section-titre a { font-weight: 600; }
+
+/* --- Grille de biens --- */
+.grille-biens { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.6rem; }
+
+.carte {
+    background: #fff; border-radius: var(--rayon); overflow: hidden;
+    box-shadow: var(--ombre); transition: transform .18s ease, box-shadow .18s ease;
+    display: flex; flex-direction: column;
+}
+.carte:hover { transform: translateY(-4px); box-shadow: var(--ombre-forte); }
+.carte a { color: inherit; }
+.carte a:hover { text-decoration: none; }
+.carte-image { position: relative; aspect-ratio: 4 / 3; background: var(--gris-clair); }
+.carte-image img { width: 100%; height: 100%; object-fit: cover; }
+.badge {
+    position: absolute; top: .8rem; left: .8rem; padding: .25rem .7rem;
+    border-radius: 999px; font-size: .75rem; font-weight: 600; color: #fff;
+    background: var(--vert); text-transform: capitalize;
+}
+.badge-vendu { background: var(--gris); }
+.badge-compromis { background: var(--ambre); }
+.carte-corps { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.carte-prix { font-family: 'Sora', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--encre); }
+.carte-titre { font-size: 1rem; font-weight: 600; }
+.carte-lieu { color: var(--gris); font-size: .9rem; }
+.carte-infos { display: flex; gap: 1rem; color: var(--gris); font-size: .85rem; margin-top: auto; padding-top: .5rem; border-top: 1px solid var(--gris-clair); }
+
+/* --- Page recherche : filtres + résultats --- */
+.layout-recherche { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; align-items: start; padding: 2.5rem 0; }
+.filtres { background: #fff; border: 1px solid var(--gris-clair); border-radius: var(--rayon); padding: 1.4rem; position: sticky; top: 90px; }
+.filtres h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+.filtres label { font-size: .85rem; font-weight: 600; display: block; margin: .9rem 0 .3rem; }
+.filtres select, .filtres input {
+    width: 100%; padding: .55rem .65rem; border: 1px solid var(--gris-clair);
+    border-radius: 8px; font-family: inherit; font-size: .9rem;
+}
+.resultats-entete { margin-bottom: 1.2rem; color: var(--gris); }
+
+/* --- Fiche d'un bien --- */
+.bien-detail { padding: 2.5rem 0; display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem; align-items: start; }
+.bien-photo img { width: 100%; border-radius: var(--rayon); }
+.bien-prix { font-family: 'Sora', sans-serif; font-size: 2.2rem; font-weight: 700; }
+.bien-prixm2 { color: var(--gris); margin-bottom: 1.2rem; }
+.bien-carac { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.5rem 0; }
+.bien-carac div { background: var(--fond-doux); border-radius: 10px; padding: .9rem 1rem; }
+.bien-carac span { display: block; color: var(--gris); font-size: .8rem; }
+.bien-carac strong { font-size: 1.1rem; }
+.panneau { background: #fff; border: 1px solid var(--gris-clair); border-radius: var(--rayon); padding: 1.5rem; box-shadow: var(--ombre); }
+.panneau h2 { font-size: 1.15rem; margin-bottom: 1rem; }
+.dpe { display: inline-block; padding: .2rem .6rem; border-radius: 6px; background: var(--vert-clair); color: var(--vert-fonce); font-weight: 700; }
+
+/* --- Formulaires (connexion, publier, estimer) --- */
+.form-page { max-width: 460px; margin: 3rem auto; padding: 0 1rem; }
+.form-large { max-width: 720px; }
+.form-carte { background: #fff; border: 1px solid var(--gris-clair); border-radius: var(--rayon); padding: 2rem; box-shadow: var(--ombre); }
+.form-carte h1 { font-size: 1.6rem; margin-bottom: .4rem; }
+.form-carte .sous-titre { color: var(--gris); margin-bottom: 1.5rem; }
+.champ-form { margin-bottom: 1.1rem; }
+.champ-form label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: .35rem; }
+.champ-form input, .champ-form select, .champ-form textarea {
+    width: 100%; padding: .7rem .8rem; border: 1px solid var(--gris-clair);
+    border-radius: 9px; font-family: inherit; font-size: .95rem;
+}
+.champ-form textarea { resize: vertical; min-height: 90px; }
+.grille-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-lien { text-align: center; margin-top: 1.2rem; color: var(--gris); font-size: .9rem; }
+.aide { background: var(--vert-clair); border-radius: 8px; padding: .7rem .9rem; font-size: .85rem; color: var(--vert-fonce); margin-top: 1rem; }
+
+/* --- Analyse / tableau de bord --- */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+.kpi { background: #fff; border: 1px solid var(--gris-clair); border-radius: var(--rayon); padding: 1.3rem; box-shadow: var(--ombre); }
+.kpi span { color: var(--gris); font-size: .85rem; }
+.kpi strong { display: block; font-family: 'Sora', sans-serif; font-size: 1.7rem; margin-top: .3rem; }
+.bloc-analyse { background: #fff; border: 1px solid var(--gris-clair); border-radius: var(--rayon); padding: 1.6rem; margin-bottom: 2rem; box-shadow: var(--ombre); }
+.bloc-analyse h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: .7rem .6rem; border-bottom: 1px solid var(--gris-clair); font-size: .92rem; }
+th { color: var(--gris); font-weight: 600; font-size: .8rem; text-transform: uppercase; letter-spacing: .02em; }
+.barre { height: 8px; background: var(--gris-clair); border-radius: 999px; overflow: hidden; }
+.barre span { display: block; height: 100%; background: var(--vert); }
+
+.tag-bon { background: #e3f3ea; color: #1d6b3f; padding: .15rem .55rem; border-radius: 6px; font-size: .78rem; font-weight: 600; }
+
+.estimation-resultat { background: var(--vert); color: #fff; border-radius: var(--rayon); padding: 2rem; text-align: center; margin-top: 1.5rem; }
+.estimation-resultat .montant { font-family: 'Sora', sans-serif; font-size: 2.6rem; font-weight: 700; }
+.estimation-resultat span { color: #cfe3e1; }
+
+.vide { text-align: center; padding: 4rem 1rem; color: var(--gris); }
+
+/* --- Pied de page --- */
+.pied { background: var(--vert-fonce); color: #cfe0de; margin-top: 4rem; padding: 3rem 0 1.5rem; }
+.pied-inner { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.pied .logo-pied { color: #fff; font-size: 1.3rem; }
+.pied p { font-size: .9rem; margin-top: .5rem; max-width: 40ch; }
+.pied nav { display: flex; flex-direction: column; gap: .5rem; }
+.pied a { color: #cfe0de; }
+.pied-bas { text-align: center; margin-top: 2rem; font-size: .82rem; color: #8fb0ad; }
+
+/* --- Responsive --- */
+@media (max-width: 880px) {
+    .layout-recherche { grid-template-columns: 1fr; }
+    .filtres { position: static; }
+    .bien-detail { grid-template-columns: 1fr; }
+    .recherche-rapide { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+    .nav { gap: .8rem; font-size: .9rem; }
+    .nav-user { display: none; }
+    .grille-2 { grid-template-columns: 1fr; }
+    .bien-carac { grid-template-columns: 1fr 1fr; }
+}
+
+/* Respecte le réglage système "réduire les animations" */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}

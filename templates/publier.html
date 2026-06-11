@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block titre %}Publier un bien{% endblock %}
+
+{% block contenu %}
+<div class="form-page form-large">
+    <div class="form-carte">
+        <h1>Publier un bien</h1>
+        <p class="sous-titre">Le bien sera rattaché à votre agence.</p>
+
+        <form method="post">
+            <div class="champ-form">
+                <label for="titre">Titre de l'annonce</label>
+                <input type="text" name="titre" id="titre" required placeholder="Appartement T3 lumineux - centre-ville">
+            </div>
+
+            <div class="grille-2">
+                <div class="champ-form">
+                    <label for="type">Type</label>
+                    <select name="type" id="type" required>
+                        <option value="appartement">Appartement</option>
+                        <option value="maison">Maison</option>
+                        <option value="terrain">Terrain</option>
+                        <option value="local">Local</option>
+                    </select>
+                </div>
+                <div class="champ-form">
+                    <label for="dpe">DPE</label>
+                    <select name="dpe" id="dpe">
+                        {% for c in ['A','B','C','D','E','F','G'] %}<option>{{ c }}</option>{% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="grille-2">
+                <div class="champ-form">
+                    <label for="prix">Prix (€)</label>
+                    <input type="number" name="prix" id="prix" required min="1" step="1000">
+                </div>
+                <div class="champ-form">
+                    <label for="surface">Surface (m²)</label>
+                    <input type="number" name="surface" id="surface" required min="1">
+                </div>
+            </div>
+
+            <div class="grille-2">
+                <div class="champ-form">
+                    <label for="nb_pieces">Nombre de pièces</label>
+                    <input type="number" name="nb_pieces" id="nb_pieces" min="0">
+                </div>
+                <div class="champ-form">
+                    <label for="nb_chambres">Nombre de chambres</label>
+                    <input type="number" name="nb_chambres" id="nb_chambres" min="0">
+                </div>
+            </div>
+
+            <div class="grille-2">
+                <div class="champ-form">
+                    <label for="ville">Ville</label>
+                    <input type="text" name="ville" id="ville" required>
+                </div>
+                <div class="champ-form">
+                    <label for="code_postal">Code postal</label>
+                    <input type="text" name="code_postal" id="code_postal" required>
+                </div>
+            </div>
+
+            <div class="champ-form">
+                <label for="adresse">Adresse</label>
+                <input type="text" name="adresse" id="adresse">
+            </div>
+
+            <div class="champ-form">
+                <label for="description">Description</label>
+                <textarea name="description" id="description"></textarea>
+            </div>
+
+            <button class="btn btn-primaire btn-bloc">Publier l'annonce</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
