@@ -144,51 +144,72 @@ def main():
     )
     clients.append(cur.lastrowid)
 
-    # --- Biens + ventes sur 3 ans ---
+    # --- Historique de ventes (pour l'analyse) ---
+    # Appartements déjà vendus sur ~3 ans. Ils n'apparaissent pas dans les annonces
+    # (statut "vendu") mais alimentent le tableau de bord et l'estimation de prix.
     debut = datetime(2022, 1, 1)
-    for _ in range(800):
+    NB_VENDUS = 250
+    for _ in range(NB_VENDUS):
         ville_info = random.choice(VILLES)
-        type_bien = "appartement"
-        jours = random.randint(0, 365 * 3 + 150)
-        date_creation = debut + timedelta(days=jours)
+        date_creation = debut + timedelta(days=random.randint(0, 365 * 3 + 150))
         if date_creation > datetime.now():
             date_creation = datetime.now() - timedelta(days=random.randint(1, 60))
 
-        bien = creer_bien(ville_info, type_bien, date_creation)
-        # on rattache le bien à une agence de la même ville si elle existe, sinon au siège
+        bien = creer_bien(ville_info, "appartement", date_creation)
         ag_id = agence_ids[VILLES.index(ville_info)]
         com_id = random.choice([c[0] for c in commerciaux if c[1] == ag_id])
 
         cur.execute(
-            """INSERT INTO bien (titre, description, type, prix, surface, nb_pieces,
+            """INSERT INTO bien (titre, description, type, statut, prix, surface, nb_pieces,
                                  nb_chambres, ville, code_postal, adresse, dpe,
                                  agence_id, commercial_id, date_creation)
-               VALUES (:titre, :description, :type, :prix, :surface, :nb_pieces,
+               VALUES (:titre, :description, :type, 'vendu', :prix, :surface, :nb_pieces,
                        :nb_chambres, :ville, :code_postal, :adresse, :dpe,
                        :agence_id, :commercial_id, :date_creation)""",
             {**bien, "agence_id": ag_id, "commercial_id": com_id},
         )
         bien_id = cur.lastrowid
-
-        # Plusieurs photos par bien (pour la galerie de la fiche)
-        for ordre, url in enumerate(media.galerie_pour(type_bien, bien_id)):
+        for ordre, url in enumerate(media.galerie_pour("appartement", bien_id)):
             cur.execute("INSERT INTO photo (bien_id, url, ordre) VALUES (?, ?, ?)",
                         (bien_id, url, ordre))
 
-        # ~55% des biens créés ont été vendus. Le prix de vente est négocié à la baisse.
-        if random.random() < 0.55:
-            negociation = random.uniform(0.92, 1.0)
-            prix_vente = round(bien["prix"] * negociation, -2)
-            delai = random.randint(20, 180)
-            date_vente = date_creation + timedelta(days=delai)
-            if date_vente <= datetime.now():
-                cur.execute("UPDATE bien SET statut = 'vendu' WHERE id = ?", (bien_id,))
-                cur.execute(
-                    """INSERT INTO vente (bien_id, client_id, commercial_id, prix_vente, date_vente)
-                       VALUES (?, ?, ?, ?, ?)""",
-                    (bien_id, random.choice(clients), com_id, prix_vente,
-                     date_vente.strftime("%Y-%m-%d %H:%M:%S")),
-                )
+        prix_vente = round(bien["prix"] * random.uniform(0.92, 1.0), -2)
+        date_vente = min(date_creation + timedelta(days=random.randint(20, 180)), datetime.now())
+        cur.execute(
+            """INSERT INTO vente (bien_id, client_id, commercial_id, prix_vente, date_vente)
+               VALUES (?, ?, ?, ?, ?)""",
+            (bien_id, random.choice(clients), com_id, prix_vente,
+             date_vente.strftime("%Y-%m-%d %H:%M:%S")),
+        )
+
+    # --- Annonces à vendre (affichées sur le site) ---
+    # 20 appartements disponibles, chacun avec 3 photos et une photo principale unique.
+    for k in range(20):
+        ville_info = random.choice(VILLES)
+        date_creation = datetime.now() - timedelta(days=random.randint(1, 90))
+        bien = creer_bien(ville_info, "appartement", date_creation)
+        ag_id = agence_ids[VILLES.index(ville_info)]
+        com_id = random.choice([c[0] for c in commerciaux if c[1] == ag_id])
+
+        cur.execute(
+            """INSERT INTO bien (titre, description, type, statut, prix, surface, nb_pieces,
+                                 nb_chambres, ville, code_postal, adresse, dpe,
+                                 agence_id, commercial_id, date_creation)
+               VALUES (:titre, :description, :type, 'a_vendre', :prix, :surface, :nb_pieces,
+                       :nb_chambres, :ville, :code_postal, :adresse, :dpe,
+                       :agence_id, :commercial_id, :date_creation)""",
+            {**bien, "agence_id": ag_id, "commercial_id": com_id},
+        )
+        bien_id = cur.lastrowid
+        # 3 photos distinctes : principale unique (k), une photo "extra", un autre intérieur
+        photos = [
+            f"/static/img/biens/appartement_{k}.jpg",
+            f"/static/img/biens/appartement_{20 + (k % 4)}.jpg",
+            f"/static/img/biens/appartement_{(k + 1) % 20}.jpg",
+        ]
+        for ordre, url in enumerate(photos):
+            cur.execute("INSERT INTO photo (bien_id, url, ordre) VALUES (?, ?, ?)",
+                        (bien_id, url, ordre))
 
     conn.commit()
 

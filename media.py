@@ -13,7 +13,7 @@ import random
 
 # Nombre d'images disponibles (fichiers static/img/biens/appartement_<n>.jpg)
 NB_IMAGES = {
-    "appartement": 8,
+    "appartement": 24,
 }
 
 ATOUTS = [

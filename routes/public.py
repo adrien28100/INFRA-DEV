@@ -1,5 +1,5 @@
 """Routes accessibles à tout le monde : accueil, recherche et fiche d'un bien."""
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for
 
 from services import bien_service
 from repositories import bien_repo, user_repo
@@ -32,7 +32,11 @@ def recherche():
 
 @public_bp.route("/bien/<int:bien_id>")
 def detail_bien(bien_id):
-    bien = bien_service.detail(bien_id)
+    try:
+        bien = bien_service.detail(bien_id)
+    except bien_service.ErreurBien:
+        flash("Ce bien n'existe pas ou a été retiré.", "info")
+        return redirect(url_for("public.recherche"))
     photos = bien_repo.photos(bien_id)
     # Pour savoir si l'utilisateur connecté a déjà mis ce bien en favori
     en_favori = False
